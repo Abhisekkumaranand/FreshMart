@@ -42,8 +42,11 @@ export default function ProductsPage() {
 
     // Category filter from URL
     if (categoryFilter) {
+      // Remove any non-alphanumeric characters for a foolproof match against slugs
+      const normalize = (str) => str.toLowerCase().replace(/[^a-z0-9]/g, '');
       result = result.filter(p => 
-        p.category.toLowerCase().includes(categoryFilter.replace('-', ' '))
+        normalize(p.category) === normalize(categoryFilter) ||
+        p.category.toLowerCase().includes(categoryFilter.toLowerCase().replace(/-/g, ' '))
       );
     }
 
@@ -322,7 +325,7 @@ export default function ProductsPage() {
                   <span className="text-sm text-gray-500">Active filters:</span>
                   {categoryFilter && (
                     <Badge variant="secondary" className="gap-1">
-                      {categoryFilter.replace('-', ' ')}
+                  {categoryFilter.replace(/-/g, ' ')}
                       <button onClick={() => setSearchParams({})}>
                         <X className="w-3 h-3" />
                       </button>

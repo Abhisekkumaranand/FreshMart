@@ -76,7 +76,7 @@ export default function ProductDetailsPage() {
         <Breadcrumbs
           items={[
             { label: 'Products', href: '/products' },
-            { label: product.category, href: `/products?category=${product.category.toLowerCase().replace(' ', '-')}` },
+            { label: product.category, href: `/products?category=${product.category.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)+/g, '')}` },
             { label: product.name }
           ]}
           className="mb-6"
